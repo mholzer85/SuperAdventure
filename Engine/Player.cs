@@ -10,7 +10,7 @@ namespace Engine
     public class Player : LivingCreature
     {
         public int Gold { get; set; }
-        public int ExperiencePoints { get; set; }
+        public int ExperiencePoints { get; private set; }
         public int Level
         {
             get { return ((ExperiencePoints / 100) + 1); }
@@ -91,6 +91,12 @@ namespace Engine
                 // If there was an error with the XML data, return a default player object
                 return Player.CreateDefaultPlayer();
             }
+        }
+
+        public void AddExperiencePoints(int experiencePointsToAdd)
+        {
+            ExperiencePoints += experiencePointsToAdd;
+            MaximumHitPoints = (Level * 10);
         }
 
         public bool HasRequiredItemToEnterThisLocation(Location location)
