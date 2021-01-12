@@ -243,16 +243,19 @@ namespace SuperAdventure
         {
             List<Weapon> weapons = new List<Weapon>();
 
-            foreach (InventoryItem inventoryItem in _player.Inventory)
-            {
-                if (inventoryItem.Details is Weapon)
-                {
-                    if (inventoryItem.Quantity > 0)
-                    {
-                        weapons.Add((Weapon)inventoryItem.Details);
-                    }
-                }
-            }
+            _player.Inventory.FindAll(ii => ii.Details is Weapon && ii.Quantity > 0)
+                .ForEach(ii => weapons.Add((Weapon)ii.Details));
+
+            /*       foreach (InventoryItem inventoryItem in _player.Inventory)
+                   {
+                       if (inventoryItem.Details is Weapon)
+                       {
+                           if (inventoryItem.Quantity > 0)
+                           {
+                               weapons.Add((Weapon)inventoryItem.Details);
+                           }
+                       }
+                   }*/
 
             if (weapons.Count == 0)
             {
@@ -262,11 +265,20 @@ namespace SuperAdventure
             }
             else
             {
+                cboWeapons.SelectedIndexChanged -= cboWeapons_SelectedIndexChanged;
                 cboWeapons.DataSource = weapons;
+                cboWeapons.SelectedIndexChanged -= cboWeapons_SelectedIndexChanged;
                 cboWeapons.DisplayMember = "Name";
                 cboWeapons.ValueMember = "ID";
 
-                cboWeapons.SelectedIndex = 0;
+                if (_player.CurrentWeapon != null)
+                {
+                    cboWeapons.SelectedItem = _player.CurrentWeapon;
+                }
+                else
+                {
+                    cboWeapons.SelectedIndex = 0;
+                }
             }
         }
 
@@ -484,6 +496,11 @@ namespace SuperAdventure
         private void SuperAdventure_FormClosing(object sender, FormClosingEventArgs e)
         {
             File.WriteAllText(PLAYER_DATA_FILE_NAME, _player.ToXmlString());
+        }
+
+        private void cboWeapons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _player.CurrentWeapon = (Weapon)cboWeapons.SelectedItem;
         }
     }
 }
