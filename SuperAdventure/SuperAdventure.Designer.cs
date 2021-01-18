@@ -219,7 +219,6 @@ namespace SuperAdventure
             this.rtbLocation.Size = new System.Drawing.Size(360, 105);
             this.rtbLocation.TabIndex = 17;
             this.rtbLocation.Text = "";
-            this.rtbLocation.TextChanged += new System.EventHandler(this.rtbLocation_TextChanged);
             // 
             // rtbMessages
             // 
@@ -229,7 +228,6 @@ namespace SuperAdventure
             this.rtbMessages.Size = new System.Drawing.Size(360, 286);
             this.rtbMessages.TabIndex = 18;
             this.rtbMessages.Text = "";
-            this.rtbMessages.TextChanged += new System.EventHandler(this.rtbMessages_TextChanged);
             // 
             // dgvInventory
             // 
